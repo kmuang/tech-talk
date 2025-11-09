@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tech Talks</title> 
+  <link rel="shortcut icon" href="img/logo.png" type="image/x-icon">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 text-slate-900 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-white shadow-md p-4 flex items-center justify-center">
+    <h1 class="text-2xl font-bold text-slate-800">💡 Tech Talks</h1>
+  </header>
+
+  <!-- Talks Grid -->
+  <main class="flex-1 p-6 pb-28 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" id="talkGrid"></main>
+
+  <!-- Video Modal -->
+  <div id="modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg max-w-3xl w-full relative overflow-hidden">
+      <button id="closeModal" class="absolute top-3 right-3 text-slate-100 hover:text-red-400 text-3xl font-bold z-10">&times;</button>
+      <div class="aspect-video bg-black">
+        <iframe id="videoFrame" class="w-full h-full" src="" allowfullscreen></iframe>
+      </div>
+      <div class="p-5">
+        <h2 id="modalTitle" class="text-2xl font-bold mb-2"></h2>
+        <p id="modalSpeaker" class="text-sm text-slate-500 mb-2"></p>
+        <p id="modalDesc" class="text-slate-700 text-base"></p>
+      </div>
+    </div>
+  </div>
+<footer class="mb-5bg-white shadow-md p-4 flex items-center justify-center">
+  <p class="text-sm text-slate-500">© 2025 Tech Talks. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+  <script>
+    const talks = [
+      {
+        title: "The Rise of Artificial Intelligence",
+        speaker: "PBSoffbook",
+        desc: "Discover how AI is transforming industries and shaping our everyday lives.",
+        cover: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=600&q=60",
+        video: "https://www.youtube.com/embed/53K1dMyslJg"
+      },
+      {
+        title: "Building the Future of Web 3.0",
+        speaker: "Wall Street Journal",
+        desc: "An exploration of decentralized apps and the possibilities of the blockchain era.",
+        cover: "https://images.unsplash.com/photo-1667422380246-3bed910ffae1?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8d2ViJTIwMy4wfGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=1600",
+        video: "https://www.youtube.com/embed/OEJGQD1OuKA"
+      }, 
+      {
+        title: "Startups Innovation Ideas",
+        speaker: "OpenAI CEO Sam Altman",
+        desc: "Learn how lean startups use agility and experimentation to outpace big companies.",
+        cover: "https://images.unsplash.com/photo-1551836022-4c4c79ecde51?auto=format&fit=crop&w=600&q=60",
+        video: "https://www.youtube.com/embed/DGU0wXMKqf4"
+      },
+      {
+        title: "Designing for Human-Centered Tech",
+        speaker: "Devex",
+        desc: "A deep dive into how empathy and design thinking shape technology that truly helps people.",
+        cover: "https://plus.unsplash.com/premium_photo-1729867698245-c14c57fc7f47?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8aHVtYW4lMjB0ZWNofGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=1600",
+        video: "https://www.youtube.com/embed/0bxtEqM2TQU"
+      },
+      {
+        title: "Cloud Computing and the Power of Scale",
+        speaker: "Simplilearn",
+        desc: "Explore how cloud and edge technologies are changing the global digital landscape.",
+        cover: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=600&q=60",
+        video: "https://www.youtube.com/embed/M988_fsOSWo"
+      },
+      {
+        title: "The Future of Technology",
+        speaker: "Vinod Khosla",
+        desc: "Why developers and companies must take responsibility for the tools they create.",
+        cover: "https://images.unsplash.com/photo-1761497723235-568a796506cf?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZXRoaWNhbCUyMHRlY2h8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&q=60&w=1600",
+        video: "https://www.youtube.com/embed/Pj9QnO9rZkE"
+      }
+    ]; 
+
+    const grid = document.getElementById('talkGrid');
+    const modal = document.getElementById('modal');
+    const closeModal = document.getElementById('closeModal');
+    const videoFrame = document.getElementById('videoFrame');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalSpeaker = document.getElementById('modalSpeaker');
+    const modalDesc = document.getElementById('modalDesc');
+
+    function renderTalks() {
+      grid.innerHTML = '';
+      talks.forEach(talk => {
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition cursor-pointer flex flex-col';
+        card.innerHTML = `
+          <img src="${talk.cover}" alt="${talk.title}" class="h-48 w-full object-cover">
+          <div class="p-4 flex-1 flex flex-col">
+            <h3 class="font-semibold text-lg mb-1">${talk.title}</h3>
+            <p class="text-sm text-slate-500 mb-2">${talk.speaker}</p>
+            <p class="text-slate-700 flex-1">${talk.desc}</p>
+            <button class="mt-3 bg-green-500 hover:bg-indigo-600 text-white px-3 py-2 rounded-md text-sm font-semibold transition">▶ Watch Talk</button>
+          </div>
+        `;
+        const btn = card.querySelector('button');
+        btn.addEventListener('click', () => openModal(talk));
+        grid.appendChild(card);
+      });
+    }
+
+    function openModal(talk) {
+      modal.classList.remove('hidden');
+      modalTitle.textContent = talk.title;
+      modalSpeaker.textContent = talk.speaker;
+      modalDesc.textContent = talk.desc;
+      videoFrame.src = talk.video + "?autoplay=1";
+    }
+
+    closeModal.addEventListener('click', closeModalFn);
+    modal.addEventListener('click', e => { if (e.target === modal) closeModalFn(); });
+
+    function closeModalFn() {
+      modal.classList.add('hidden');
+      videoFrame.src = "";
+    }
+
+    renderTalks();
+  </script>
+
+</body>
+</html>
